@@ -14,9 +14,9 @@ students = [
  {:name =>"The Joker", :cohort => :november}
 ]
 
-def print_names(students)
+def print_names(students,pattern)
 	students.each_with_index do |student,index|
-		print "#{index}. #{student[:name]} (#{student[:cohort]} cohort)\n"
+		print "#{index}. #{student[:name]} (#{student[:cohort]} cohort)\n" if student[:name]=~pattern 
 	end
 end
 
@@ -48,8 +48,8 @@ def input_students
 	students
 end
 
-
+pattern = /A(.)+/
 students = input_students
 print_header
-print_names(students)
+print_names(students,pattern)
 print_footer(students)
