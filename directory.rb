@@ -15,8 +15,8 @@ students = [
 ]
 
 def print_names(students)
-	students.each do |student|
-		print "#{student[:name]} (#{student[:cohort]} cohort)\n"
+	students.each_with_index do |student,index|
+		print "#{index}. #{student[:name]} (#{student[:cohort]} cohort)\n"
 	end
 end
 
