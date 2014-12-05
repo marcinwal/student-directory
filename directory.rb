@@ -1,6 +1,6 @@
 
 
-student_count = 9 
+#student_count = 9 
 
 students = [
  "Dr. Hannibal Lecter",
@@ -14,12 +14,23 @@ students = [
  "The Joker"]
 
 
-
-puts "The students of my cohort at Makers Academy"
-puts "--------------"
-
-students.each do |student|
-	puts student
+def print_names(names)
+	names.each do |name|
+		puts name
+	end
 end
 
-print "Overall, we have #{students.length} great students"
+def print_header
+  puts "The students of my cohort at Makers Academy"
+  puts "--------------"
+end
+
+def print_footer(names)
+  print "Overall, we have #{names.length} great students"	
+end
+
+
+
+print_header
+print_names(students)
+print_footer(students)
