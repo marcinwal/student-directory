@@ -3,20 +3,20 @@
 #student_count = 9 
 
 students = [
- "Dr. Hannibal Lecter",
- "Darth Vader",
- "Nurse Ratched",
- "Michael Corleone",
- "Alex De Large",
- "Teh Alien",
- "Termiantor",
- "Fredy Kruger",
- "The Joker"]
+ ["Dr. Hannibal Lecter", :november],
+ ["Darth Vader", :november],
+ ["Nurse Ratched", :november],
+ ["Michael Corleone", :november],
+ ["Alex De Large", :november],
+ ["Teh Alien", :november],
+ ["Termiantor", :november],
+ ["Fredy Kruger", :november],
+ ["The Joker", :november]
+]
 
-
-def print_names(names)
-	names.each do |name|
-		puts name
+def print_names(students)
+	students.each do |student|
+		puts "#{student[0]} (#{student[1]} cohort"
 	end
 end
 
