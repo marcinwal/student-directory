@@ -1,6 +1,6 @@
 
 
-#student_count = 9 
+#student_count = 9
 
 students = [
  {:name => "Dr. Hannibal Lecter", :cohort => :november},
@@ -18,6 +18,16 @@ def print_names(students,pattern=/A(.)+/,max_name_length = 12)
 	students.each_with_index do |student,index|
 		print "#{index}. #{student[:name]} (#{student[:cohort]} cohort)\n" if (student[:name]=~pattern) && 
 																			  (student[:name].length < max_name_length)
+	end
+end
+
+def print_names_with_while(students,pattern=/A(.)+/,max_name_length = 12)
+	studs = students.length 
+	i = 0 
+	while i < studs
+		print "#{i}.  #{students[i][:name]} (#{students[i][:cohort]} cohort)\n" if (students[i][:name]=~pattern) && 
+					  				  										  (students[i][:name].length < max_name_length)
+		i +=1 
 	end
 end
 
@@ -54,3 +64,5 @@ students = input_students
 print_header
 print_names(students,pattern)
 print_footer(students)
+print_names_with_while(students,pattern)
+
