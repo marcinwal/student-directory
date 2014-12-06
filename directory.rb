@@ -14,9 +14,10 @@ students = [
  {:name =>"The Joker", :cohort => :november}
 ]
 
-def print_names(students,pattern)
+def print_names(students,pattern=/A(.)+/,max_name_length = 12)
 	students.each_with_index do |student,index|
-		print "#{index}. #{student[:name]} (#{student[:cohort]} cohort)\n" if student[:name]=~pattern 
+		print "#{index}. #{student[:name]} (#{student[:cohort]} cohort)\n" if (student[:name]=~pattern) && 
+																			  (student[:name].length < max_name_length)
 	end
 end
 
