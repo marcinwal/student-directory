@@ -2,17 +2,17 @@
 
 #student_count = 9
 
-students = [
- {:name => "Dr. Hannibal Lecter", :cohort => :november, :hobbies => "sport", :birth_country => "usa", :eye_color => :blue},
- {:name =>"Darth Vader", :cohort => :november,:hobbies => "kung-fu", :birth_country => "usa", :eye_color => :red},
- {:name =>"Nurse Ratched", :cohort => :november,:hobbies => "painting", :birth_country => "usa", :eye_color => :green},
- {:name =>"Michael Corleone", :cohort => :november,:hobbies => "shooting", :birth_country => "italy", :eye_color => :green},
- {:name =>"Alex De Large", :cohort => :november,:hobbies => "singing", :birth_country => "usa", :eye_color => :brown},
- {:name =>"The Alien", :cohort => :november,:hobbies => "dance", :birth_country => "space", :eye_color => :yellow},
- {:name =>"Termiantor", :cohort => :november,:hobbies => "shooting", :birth_country => "usa", :eye_color => :blue},
- {:name =>"Fredy Kruger", :cohort => :september,:hobbies => "party", :birth_country => "germany", :eye_color => :blue},
- {:name =>"The Joker", :cohort => :september,:hobbies => "sport", :birth_country => "usa", :eye_color => :brown}
-]
+#students = [
+# {:name => "Dr. Hannibal Lecter", :cohort => :november, :hobbies => "sport", :birth_country => "usa", :eye_color => :blue},
+# {:name =>"Darth Vader", :cohort => :november,:hobbies => "kung-fu", :birth_country => "usa", :eye_color => :red},
+# {:name =>"Nurse Ratched", :cohort => :november,:hobbies => "painting", :birth_country => "usa", :eye_color => :green},
+# {:name =>"Michael Corleone", :cohort => :november,:hobbies => "shooting", :birth_country => "italy", :eye_color => :green},
+# {:name =>"Alex De Large", :cohort => :november,:hobbies => "singing", :birth_country => "usa", :eye_color => :brown},
+# {:name =>"The Alien", :cohort => :november,:hobbies => "dance", :birth_country => "space", :eye_color => :yellow},
+# {:name =>"Termiantor", :cohort => :november,:hobbies => "shooting", :birth_country => "usa", :eye_color => :blue},
+# {:name =>"Fredy Kruger", :cohort => :september,:hobbies => "party", :birth_country => "germany", :eye_color => :blue},
+# {:name =>"The Joker", :cohort => :september,:hobbies => "sport", :birth_country => "usa", :eye_color => :brown}
+#]
 
 
 
@@ -74,8 +74,22 @@ def input_details(name)
 	return hobbies,country,eyes,coh
 end
 
-def load_students
-	file = File.open("students.csv","r")
+
+def try_load_students
+	filename = ARGV.first
+	return if filename.nil?
+	if File.exists?(filename)
+		load_students(filename)
+		puts "loaded #{@students.length} from #{filename}"
+	else
+		puts "sorry, #{filename} does not exist"
+		exit
+	end
+end
+
+
+def load_students(filename = "students.csv")
+	file = File.open(filename,"r")
 	file.readlines.each do |line|
 		name,cohort = line.chomp.split(",")
 		@students << {:name => name , :cohort => cohort.to_sym}
@@ -148,11 +162,16 @@ def process(selection)
 end	
 
 def interactive_menu
+  
   @months = [:september, :december ,:march ,:june, :november]		
   @students = []
+  
+  p ARGV
+  try_load_students
+
   loop do
   	print_menu	
-	process(gets.chomp)
+	process(STDIN.gets.chomp)
   end
 end
 
@@ -167,6 +186,7 @@ def old_main_run
 
   print print_names_by_cohort(students,months)
 end
+
 
 interactive_menu
 
