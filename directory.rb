@@ -98,6 +98,8 @@ def load_students(filename = "students.csv")
 end
 
 
+
+
 def save_students
 	file = File.open("students.csv","w")
 	@students.each do |student|
@@ -107,6 +109,7 @@ def save_students
 	end
 	file.close
 end
+
 
 def input_students()
 	print "Please enter the names of the students\n"
@@ -135,6 +138,8 @@ def print_menu
 	puts "2. Show the students"
 	puts "3. Save the list to students.csv"
 	puts "4. Load the list from students.csv"
+	puts "5. Print directory.rb code"
+	puts "6. Clear screen"
 	puts "9. Exit"
 end	
 
@@ -142,6 +147,18 @@ def show_students()
 		print_header
 		print_names()
 		print_footer()
+end
+
+def print_your_code
+	file = File.open($0,"r")
+	file.readlines.each_with_index do |line,index|
+		STDOUT.puts "Line:#{index}: #{line}"
+	end
+	file.close
+end
+
+def cls
+	system ("clear")
 end
 
 def process(selection)
@@ -153,7 +170,11 @@ def process(selection)
 	  when "3"
 	    save_students	
 	  when "4"
-	  	load_students  
+	  	load_students 
+	  when "5"
+	  	print_your_code
+	  when "6"	
+	  	cls	 
 	  when "9"
 		exit
 	  else
@@ -166,7 +187,7 @@ def interactive_menu
   @months = [:september, :december ,:march ,:june, :november]		
   @students = []
   
-  p ARGV
+  #p ARGV
   try_load_students
 
   loop do
