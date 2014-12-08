@@ -23,9 +23,9 @@ def print_names(pattern=/(.)*/,max_name_length = 120)
 	end
 end
 
-def print_names_by_cohort(students,months)
-	cohort_grouped = students.map {|el| {el[:cohort] => el[:name]}} 
-	months.each do |month|
+def print_names_by_cohort()
+	cohort_grouped = @students.map {|el| {el[:cohort] => el[:name]}} 
+	@months.each do |month|
       puts "\nStudents in #{month} cohort are:"
 	  cohort_grouped.each do |el|
 	    	print el[month]
@@ -59,17 +59,17 @@ end
 def input_details(name)
 
 	print "Please enter #{name} cohort out of #{@months} "
-	coh = gets.chomp.to_sym
+	coh = STDIN.gets.chomp.to_sym
 
 	puts "selection not in options #{@months} set to defualt" unless @months.include?(coh)
     coh = "november" unless @months.include?(coh)
 
 	print "Please enter #{name} hobbies "
-	hobbies = gets.chomp
+	hobbies = STDIN.gets.chomp
 	print "Please enter #{name} conutry of birth "
-	country = gets.chomp
+	country = STDIN.gets.chomp
 	print "Please enter #{name} eye color "
-	eyes = gets.tr('\n','') # substitute of chomp
+	eyes = STDIN.gets.tr('\n','') # substitute of chomp
 	#print eyes
 	return hobbies,country,eyes,coh
 end
@@ -88,6 +88,26 @@ def try_load_students
 end
 
 
+def save_students_with_bloc(filename = "students.csv")
+	File.open(filename,"w") do |f|
+		@students.each do |student| 
+			students_data = [@students[:name],@students[:cohort]]
+			csv_line = students_data.join(",")
+			f.puts csv_line
+		end
+	end
+end
+
+def load_students_with_bloc(filename = "students.csv")
+	File.open(filename,"r") do |f|
+		line = f.gets
+		puts line
+		#name,cohort = line.split(",")
+		#@students << {:name => name , :cohort => cohort.to_sym}
+	end
+end
+
+
 def load_students(filename = "students.csv")
 	file = File.open(filename,"r")
 	file.readlines.each do |line|
@@ -100,8 +120,8 @@ end
 
 
 
-def save_students
-	file = File.open("students.csv","w")
+def save_students(filename = "students.csv")
+	file = File.open(filename,"w")
 	@students.each do |student|
 		students_data = [student[:name], student[:cohort]]
 		csv_line = students_data.join(",")
@@ -117,7 +137,7 @@ def input_students()
 	#create an empty array
 	#students = []
 	#get first name
-	name = gets.chomp
+	name = STDIN.gets.chomp
 	#while the name is not empty repea this code
 	while !name.empty? do
 		#add the student hash
@@ -126,7 +146,7 @@ def input_students()
 		@students << {:name => name, :cohort => coh, :hobbies => hobby, :birth_country => country, :eye_color => eye.to_sym }
 		print "Now we have #{@students.length} students\n"
 		#get another name from the user
-		name = gets.chomp
+		name = STDIN.gets.chomp
 	end
 	#return the arry of students
 	#students
@@ -140,6 +160,7 @@ def print_menu
 	puts "4. Load the list from students.csv"
 	puts "5. Print directory.rb code"
 	puts "6. Clear screen"
+	puts "7. Print names by cohort"
 	puts "9. Exit"
 end	
 
@@ -170,11 +191,13 @@ def process(selection)
 	  when "3"
 	    save_students	
 	  when "4"
-	  	load_students 
+	  	load_students_with_bloc
 	  when "5"
 	  	print_your_code
 	  when "6"	
-	  	cls	 
+	  	cls	
+	  when "7"
+	  	print_names_by_cohort	 
 	  when "9"
 		exit
 	  else
