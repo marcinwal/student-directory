@@ -23,15 +23,18 @@ def print_names(pattern=/(.)*/,max_name_length = 120)
 	end
 end
 
-def print_names_by_cohort()
-	cohort_grouped = @students.map {|el| {el[:cohort] => el[:name]}} 
-	@months.each do |month|
-      puts "\nStudents in #{month} cohort are:"
-	  cohort_grouped.each do |el|
-	    	print el[month]
-	  end
-    end
 
+
+
+def print_names_by_cohort()   
+	@students.map{|student|student[:cohort]}.uniq.each do |month| 
+		 puts "\nStudents in #{month} cohort are: "
+		 @students.each{|student| print_student(student) if student[:month] == month}
+	end
+end
+
+def print_student(student)
+	puts "#{studnet[:name]} from: #{student[:cohort]} cohort"
 end
 
 def print_names_with_while(students,pattern=/(.)*/,max_name_length = 120)
@@ -59,7 +62,7 @@ end
 def input_details(name)
 
 	print "Please enter #{name} cohort out of #{@months} "
-	coh = STDIN.gets.chomp.to_sym
+	coh = STDIO.gets.chomp.to_sym
 
 	puts "selection not in options #{@months} set to defualt" unless @months.include?(coh)
     coh = "november" unless @months.include?(coh)
@@ -70,7 +73,7 @@ def input_details(name)
 	country = STDIN.gets.chomp
 	print "Please enter #{name} eye color "
 	eyes = STDIN.gets.tr('\n','') # substitute of chomp
-	#print eyes
+
 	return hobbies,country,eyes,coh
 end
 
@@ -100,10 +103,10 @@ end
 
 def load_students_with_bloc(filename = "students.csv")
 	File.open(filename,"r") do |f|
-		line = f.gets
-		puts line
-		#name,cohort = line.split(",")
-		#@students << {:name => name , :cohort => cohort.to_sym}
+		f.lines.each do |l| 
+			name,cohort = l.split(",")
+		    @students << {:name => name , :cohort => cohort.to_sym}
+		end    
 	end
 end
 
@@ -161,6 +164,7 @@ def print_menu
 	puts "5. Print directory.rb code"
 	puts "6. Clear screen"
 	puts "7. Print names by cohort"
+	puts "8. Load the list form students.csv with bloc"
 	puts "9. Exit"
 end	
 
@@ -191,13 +195,15 @@ def process(selection)
 	  when "3"
 	    save_students	
 	  when "4"
-	  	load_students_with_bloc
+	  	load_students
 	  when "5"
 	  	print_your_code
 	  when "6"	
 	  	cls	
 	  when "7"
 	  	print_names_by_cohort	 
+	  when "8"
+	  	load_students_with_bloc	
 	  when "9"
 		exit
 	  else
